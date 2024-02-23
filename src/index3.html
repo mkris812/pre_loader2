@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooting Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <style>
+      @keyframes rolling {
+    0% {
+        transform: translateY(-160%);
+    }
+
+   
+    50% {
+        transform: translateY(30%);
+    }
+   
+    100% {
+        transform: translateY(-160%);
+    }
+}
+
+.flex-div {
+ 
+    animation: rolling 30s linear infinite;
+}
+
+/* Additional styles to make it work */
+.flex {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+    </style>
+   
+    
+    <div id="" class="relative  h-screen overflow-hidden w-full bg-white " >
+
+        <div class="absolute  animate-cardm11 top-5 left-5 w-80 shadow-2xlshadow-violet-300 rounded-3xl p-5 text-black bg-gradient-to-r from-violet-400 to-violet-300 transform transition-transform duration-300 hover:z-50 hover:translate-y-24 hover:translate-x-36 hover:scale-150">
+            <img class="rounded-3xl h-52 w-80 items-center justify-center" src="../img/w1.jpg" alt="">
+        </div>
+        
+   
+        <div class="absolute animate-cardm11 top-5 right-10 w-80  shadow-2xl shadow-violet-300 rounded-3xl p-5 text-black bg-gradient-to-r from-violet-400 to-violet-300 transform transition-transform duration-300 hover:z-50 hover:translate-y-24 hover:-translate-x-36 hover:scale-150">
+            <img class="rounded-3xl h-52 w-80 items-center justify-center" src="../img/w2.jpg" alt="">
+        </div>
+  
+        <div class="absolute  animate-cardm12 bottom-36 left-5 w-80  shadow-2xl shadow-violet-300 rounded-3xl p-5 text-black bg-gradient-to-r from-violet-400 to-violet-300 transform transition-transform duration-300 hover:z-50 hover:-translate-y-36 hover:translate-x-36 hover:scale-150">
+            <img class="rounded-3xl h-52 w-80 items-center justify-center" src="../img/w3.jpg" alt="">
+        </div>
+        <div class="absolute animate-cardm12 bottom-36 right-10 w-80 shadow-2xl shadow-violet-300 rounded-3xl p-5 text-black bg-gradient-to-r from-violet-400 to-violet-300 transform transition-transform duration-300 hover:z-50 hover:-translate-y-36 hover:-translate-x-36 hover:scale-150">
+            <img class="rounded-3xl h-52 w-80 items-center justify-center" src="../img/w4.jpg" alt="">
+        </div>
+  
+          
+      
+    
+        
+        
+
+
+        <img class="absolute  right-[100vh] top-[0vh] z-10 h-52 animate-flying-bubble1" src="../img/2/Asset 5.png" alt=""><!-- benif -->
+        <img class="absolute left-[100vh]  bottom-[25vh] z-10 h-56 animate-flying-bubble1   " src="../img/2/Asset 4.png" alt=""><!--e claim -->
+        <img class="absolute  right-[65vh]  bottom-[55vh] z-30 h-60 animate-flying-bubble   " src="../img/2/Asset 3.png" alt=""><!-- s claim -->
+        <img class="absolute left-[74vh]  bottom-[45vh] z-30 h-52 animate-flying-bubble   " src="../img/2/Asset 6.png" alt=""><!--access -->
+        <img class="absolute  right-[88vh]  bottom-[45vh] z-20 h-72 filter-drop-shadow   " src="../img/2/Asset 1.png" alt=""><!-- create -->
+
+        <img class="absolute -left-96  bottom-28 z-10 h-60 animate-move-cloud4  " src="../img/city.png" alt="">   
+       <img class="absolute left-32  bottom-28 z-10 h-48 animate-move-cloud3  " src="../img/city3.png" alt="">   
+     
+
+        <img class="absolute right-0 left-0 -bottom-32 z-10  " src="../img/1x/Asset 4-8.png" alt="">
+        <!-- animate-move-cloud1 -->
+        <img class="absolute right-24  bottom-5 z-50 h-96 animate-move-cloud1  " src="../img/2.gif" alt="">
+        <img class="absolute right-32  bottom-20 z-10 h-64 animate-move-cloud2  " src="../img/atm1.png" alt="">
+ 
+    </div>
+
+    
+</body>
+</html>
