@@ -1,59 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f2f2f2;
-        }
-        .countdown {
-            font-size: 50px;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marks Entry and Total Calculation</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .member-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .member-form input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .member-form button {
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .member-form button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Table styles */
+    .marks-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    .marks-table th, .marks-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .marks-table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .marks-table td {
+      background-color: #f9f9f9;
+    }
+
+    .marks-table tfoot td {
+      font-weight: bold;
+      background-color: #f1f1f1;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .member-form input, .member-form button {
+        font-size: 14px;
+      }
+
+      .marks-table td, .marks-table th {
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="countdown" id="countdown"></div>
 
-    <script>
-        function updateCountdown() {
-            var now = new Date();
-            var targetTime = new Date();
-            targetTime.setHours(21, 0, 0, 0); // Set target time to 9 PM today
+  <div class="container">
+    <h1>Marks Entry for Members 001 - 015</h1>
+    <form id="marksForm" class="member-form">
+      <div id="marksInputs">
+        <!-- Individual member mark inputs will be added here -->
+      </div>
+      <button type="submit">Calculate Total Marks</button>
+    </form>
 
-            // If the current time is past 9 PM, set target to 9 PM tomorrow
-            if (now > targetTime) {
-                targetTime.setDate(targetTime.getDate() + 1);
-            }
+    <div id="results">
+      <table class="marks-table" id="marksTable">
+        <thead>
+          <tr>
+            <th>Member ID</th>
+            <th>Marks</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <td>Total Marks</td>
+            <td id="totalMarks">0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 
-            var timeDifference = targetTime - now;
+  <script>
+    // Add inputs for marks of members 001 to 015
+    window.onload = function() {
+      const marksContainer = document.getElementById('marksInputs');
+      for (let i = 1; i <= 15; i++) {
+        const memberId = i.toString().padStart(3, '0'); // Format as 001, 002, ..., 015
+        const inputElement = `
+          <div class="member">
+            <label for="member${memberId}">Member ${memberId}</label>
+            <input type="number" id="member${memberId}" name="member${memberId}" placeholder="Enter marks for Member ${memberId}" required min="0" />
+          </div>
+        `;
+        marksContainer.innerHTML += inputElement;
+      }
+    };
 
-            // Calculate hours, minutes, and seconds
-            var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+    // Handle form submission and calculate total marks
+    document.getElementById('marksForm').addEventListener('submit', function(event) {
+      event.preventDefault();
 
-            // Display the countdown
-            document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+      let totalMarks = 0;
+      const memberRows = [];
 
-            // If the countdown is finished, redirect to the URL
-            if (timeDifference < 0) {
-                window.location.href = "https://www.presidency.smartboxems.com/login";
-            }
-        }
+      // Loop through each member input and calculate total marks
+      for (let i = 1; i <= 15; i++) {
+        const memberId = i.toString().padStart(3, '0');
+        const marks = parseInt(document.getElementById(`member${memberId}`).value) || 0;
+        totalMarks += marks;
+        memberRows.push(`<tr><td>Member ${memberId}</td><td>${marks}</td></tr>`);
+      }
 
-        // Update the countdown every second
-        setInterval(updateCountdown, 1000);
-    </script>
+      // Display results in the table
+      const tableBody = document.querySelector('#marksTable tbody');
+      tableBody.innerHTML = memberRows.join('');
+      document.getElementById('totalMarks').textContent = totalMarks;
+    });
+  </script>
+
 </body>
 </html>
