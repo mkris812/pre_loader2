@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marks Entry and Total Calculation</title>
+  <title>Marks Entry Form</title>
   <style>
     /* General Styles */
     body {
@@ -112,19 +112,24 @@
 <body>
 
   <div class="container">
-    <h1>Marks Entry for Members 001 - 015</h1>
+    <h1>Marks Entry for Students</h1>
     <form id="marksForm" class="member-form">
-      <div id="marksInputs">
-        <!-- Individual member mark inputs will be added here -->
+      <div class="member">
+        <label for="rollNumber">Roll Number</label>
+        <input type="number" id="rollNumber" name="rollNumber" placeholder="Enter roll number (e.g., 008)" required min="1" />
       </div>
-      <button type="submit">Calculate Total Marks</button>
+      <div class="member">
+        <label for="marks">Marks</label>
+        <input type="number" id="marks" name="marks" placeholder="Enter marks" required min="0" />
+      </div>
+      <button type="submit">Submit</button>
     </form>
 
     <div id="results">
       <table class="marks-table" id="marksTable">
         <thead>
           <tr>
-            <th>Member ID</th>
+            <th>Roll Number</th>
             <th>Marks</th>
           </tr>
         </thead>
@@ -140,41 +145,55 @@
   </div>
 
   <script>
-    // Add inputs for marks of members 001 to 015
-    window.onload = function() {
-      const marksContainer = document.getElementById('marksInputs');
-      for (let i = 1; i <= 15; i++) {
-        const memberId = i.toString().padStart(3, '0'); // Format as 001, 002, ..., 015
-        const inputElement = `
-          <div class="member">
-            <label for="member${memberId}">Member ${memberId}</label>
-            <input type="number" id="member${memberId}" name="member${memberId}" placeholder="Enter marks for Member ${memberId}" required min="0" />
-          </div>
-        `;
-        marksContainer.innerHTML += inputElement;
-      }
-    };
+    // Load saved data from localStorage
+    function loadMarks() {
+      const savedData = JSON.parse(localStorage.getItem('marksData')) || [];
+      const tableBody = document.querySelector('#marksTable tbody');
+      const totalMarks = savedData.reduce((total, entry) => total + entry.marks, 0);
+      document.getElementById('totalMarks').textContent = totalMarks;
+      
+      // Clear table before adding new rows
+      tableBody.innerHTML = '';
 
-    // Handle form submission and calculate total marks
+      // Add rows for each entry
+      savedData.forEach((entry) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${entry.rollNumber}</td><td>${entry.marks}</td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Handle form submission and store data in localStorage
     document.getElementById('marksForm').addEventListener('submit', function(event) {
       event.preventDefault();
 
-      let totalMarks = 0;
-      const memberRows = [];
+      const rollNumber = document.getElementById('rollNumber').value;
+      const marks = parseInt(document.getElementById('marks').value);
 
-      // Loop through each member input and calculate total marks
-      for (let i = 1; i <= 15; i++) {
-        const memberId = i.toString().padStart(3, '0');
-        const marks = parseInt(document.getElementById(`member${memberId}`).value) || 0;
-        totalMarks += marks;
-        memberRows.push(`<tr><td>Member ${memberId}</td><td>${marks}</td></tr>`);
+      if (!rollNumber || isNaN(marks)) {
+        alert("Please fill in both fields correctly.");
+        return;
       }
 
-      // Display results in the table
-      const tableBody = document.querySelector('#marksTable tbody');
-      tableBody.innerHTML = memberRows.join('');
-      document.getElementById('totalMarks').textContent = totalMarks;
+      // Get current data from localStorage or initialize it
+      const savedData = JSON.parse(localStorage.getItem('marksData')) || [];
+
+      // Add the new entry
+      savedData.push({ rollNumber, marks });
+
+      // Save updated data to localStorage
+      localStorage.setItem('marksData', JSON.stringify(savedData));
+
+      // Clear input fields
+      document.getElementById('rollNumber').value = '';
+      document.getElementById('marks').value = '';
+
+      // Reload the table with updated data
+      loadMarks();
     });
+
+    // Load the data on page load
+    window.onload = loadMarks;
   </script>
 
 </body>
